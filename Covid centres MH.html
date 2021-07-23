@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Load plotly.js into the DOM -->
+	<script src='https://cdn.plot.ly/plotly-2.1.0.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+</head>
+<body>
+    <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+    <script>
+    d3.csv(
+	"https://raw.githubusercontent.com/pawan-Kumar-IITB/Communitygis/main/covid.csv?token=AUH6YVHKAZ325NLAKC6ORFLA2RPTI",
+	function(err, rows) {
+		function unpack(rows, key) {
+			return rows.map(function(row) {
+				return row[key];
+			});
+		}
+
+		var data = [
+			{
+				type: "scattermapbox",
+				text: unpack(rows, "Globvalue"),
+				lon: unpack(rows, "long"),
+				lat: unpack(rows, "lat"),
+				marker: { color: "fuchsia", size: 4 }
+			}
+		];
+
+		var layout = {
+			dragmode: "zoom",
+			mapbox: { style: "open-street-map", center: { lat: 28.5934, lon: 77.2223 }, zoom: 3 },
+			margin: { r: 0, t: 0, b: 0, l: 0 }
+		};
+
+	Plotly.newPlot('myDiv', data, layout, {editable: true});
+	}
+);
+     </script>
+</body>
+</html>

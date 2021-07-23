@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Load plotly.js into the DOM -->
+	<script src='https://cdn.plot.ly/plotly-2.1.0.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+</head>
+<body>
+    <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+    <script>
+      d3.json('https://raw.githubusercontent.com/pawan-Kumar-IITB/maps/main/maha_taluka_20may2020.json', function(redjson) {
+
+  d3.json('https://raw.githubusercontent.com/plotly/datasets/master/florida-blue-data.json', function(bluejson) {
+
+    Plotly.newPlot('myDiv', [{
+      type: 'scattermapbox',
+      lat: [19.7515],
+      lon: [75.7139]
+    }], {
+      title: "Maharashtra Taluka",
+      height: 600,
+      width: 1200,
+      mapbox: {
+        center: {
+          lat: 19.7515,
+          lon: 75.7139
+        },
+        style: 'light',
+        zoom: 4.5,
+        layers: [
+          {
+            sourcetype: 'geojson',
+            source: redjson,
+            type: 'fill',
+            color: 'rgba(163,22,19,0.8)'
+          },
+        ]
+      }
+    }, {
+      mapboxAccessToken: 'pk.eyJ1Ijoid2luZG1hbjAwNTEwcCIsImEiOiJja3Fhd280b3EwMTQ0MnZwNzUzZWt4MnVlIn0.AKpTtyDrEI2aIzJXBRHU1Q'
+    });
+
+
+});
+
+});
+     </script>
+</body>
+</html>

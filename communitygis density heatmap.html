@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Load plotly.js into the DOM -->
+  <script src='https://cdn.plot.ly/plotly-2.1.0.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+</head>
+<body>
+    <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+    <script>
+      d3.csv('https://raw.githubusercontent.com/pawan-Kumar-IITB/maps/main/heatmap_trial.csv',
+    function(err, rows){function unpack(rows, key) {return rows.map(function(row){ return row[key];
+  })};
+
+  var data = [{
+    lon: unpack(rows, 'st_x'), lat: unpack(rows, 'st_y'), radius:10,
+    z: unpack(rows, 'data_value'), type: "densitymapbox", coloraxis: 'coloraxis',
+    hoverinfo: 'skip'}];
+
+  var layout = {
+      mapbox: {center: {lon: 60, lat: 30}, style: "outdoors", zoom: 2},
+      coloraxis: {colorscale: "Viridis"}, title: {text: "Heatmap Trial"},
+      width: 1200, height: 600, margin: {t: 30, b: 0}};
+
+  var config = {mapboxAccessToken: "pk.eyJ1Ijoid2luZG1hbjAwNTEwcCIsImEiOiJja3Fhd280b3EwMTQ0MnZwNzUzZWt4MnVlIn0.AKpTtyDrEI2aIzJXBRHU1Q"};
+
+  Plotly.newPlot('myDiv', data, layout, config);
+  })
+     </script>
+</body>
+</html>

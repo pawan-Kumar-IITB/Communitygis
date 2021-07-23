@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Load plotly.js into the DOM -->
+  <script src='https://cdn.plot.ly/plotly-2.1.0.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+</head>
+<body>
+    <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+    <script>
+      d3.csv('https://raw.githubusercontent.com/pawan-Kumar-IITB/Communitygis/main/maharashtra%20taluka%202.csv?token=AUH6YVCQIK4ACOHHJY26CSDA2R6VQ',
+      function(err, rows) {
+    		function unpack(rows, key) {
+    			return rows.map(function(row) {
+    				return row[key];
+    			});
+    		}
+
+           var data = [{
+                type: 'choropleth',
+                locationmode: 'taluka code',
+                locations: unpack(rows, 'taluka_cod'),
+                z: unpack(rows, 'dist_code'),
+                text: unpack(rows, 'taluka_nam'),
+                colorscale: [
+                    [0,'rgb(5, 10, 172)'],[0.35,'rgb(40, 60, 190)'],
+                    [0.5,'rgb(70, 100, 245)'], [0.6,'rgb(90, 120, 245)'],
+                    [0.7,'rgb(106, 137, 247)'],[1,'rgb(220, 220, 220)']],
+                autocolorscale: false,
+                reversescale: true,
+                marker: {
+                    line: {
+                        color: 'rgb(180,180,180)',
+                        width: 0.5
+                    }
+                },
+                tick0: 0,
+                zmin: 0,
+                dtick: 1000,
+                colorbar: {
+                    autotic: false,
+                    tickprefix: '',
+                    title: 'Maharashtra Taluka'
+                }
+          }];
+
+          var layout = {
+            dragmode: "zoom",
+            mapbox: { style: "open-street-map", center: { lat: 28.5934, lon: 77.2223 }, zoom: 1 },
+            margin: { r: 0, t: 0, b: 0, l: 0 }
+          };
+          Plotly.newPlot("myDiv", data, layout, {showLink: false});
+    });
+     </script>
+</body>
+</html>
